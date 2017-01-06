@@ -1,0 +1,35 @@
+[
+  {
+    "checkedOut": false,
+    "title": "iOS for Dummies",
+    "author": "TJ (who else?)",
+    "genre": "Technical",
+    "user": null
+  },
+  {
+    "checkedOut": false,
+    "title": "Harry Potter and the something",
+    "author": "JK Rowling",
+    "genre": "Fantasy",
+    "user": null
+  },
+  {
+    "checkedOut": false,
+    "title": "String Theory",
+    "author": "Foster Wallace",
+    "genre": "Biography",
+    "user": null
+  },
+  {
+    "checkedOut": false,
+    "title": "100 years of solitude",
+    "author": "Gabriel Garcia Marquez",
+    "genre": "Fiction",
+    "user": {
+      "userName": "dev@tiy.com",
+      "firstName": "Master",
+      "lastName": "Developer",
+      "id": 7000
+    }
+  }
+]

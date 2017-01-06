@@ -14,6 +14,10 @@
 		E8EE11DE1E1EA7FC00D67387 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8EE11DC1E1EA7FC00D67387 /* LaunchScreen.storyboard */; };
 		E8EE11E91E1EA7FC00D67387 /* BooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE11E81E1EA7FC00D67387 /* BooksTests.swift */; };
 		E8EE11F41E1EA7FC00D67387 /* BooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE11F31E1EA7FC00D67387 /* BooksUITests.swift */; };
+		E8EE12021E1EAA2800D67387 /* LibraryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE12011E1EAA2800D67387 /* LibraryAPI.swift */; };
+		E8EE12041E1EAFC200D67387 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE12031E1EAFC200D67387 /* Book.swift */; };
+		E8EE12081E1EAFCB00D67387 /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE12071E1EAFCB00D67387 /* BookStore.swift */; };
+		E8EE120A1E1F373B00D67387 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EE12091E1F373B00D67387 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		E8EE11EF1E1EA7FC00D67387 /* BooksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8EE11F31E1EA7FC00D67387 /* BooksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksUITests.swift; sourceTree = "<group>"; };
 		E8EE11F51E1EA7FC00D67387 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8EE12011E1EAA2800D67387 /* LibraryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryAPI.swift; sourceTree = "<group>"; };
+		E8EE12031E1EAFC200D67387 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		E8EE12071E1EAFCB00D67387 /* BookStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookStore.swift; sourceTree = "<group>"; };
+		E8EE12091E1F373B00D67387 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,10 @@
 			children = (
 				E8EE11D31E1EA7FC00D67387 /* AppDelegate.swift */,
 				E8EE11D51E1EA7FC00D67387 /* ViewController.swift */,
+				E8EE12031E1EAFC200D67387 /* Book.swift */,
+				E8EE12091E1F373B00D67387 /* User.swift */,
+				E8EE12071E1EAFCB00D67387 /* BookStore.swift */,
+				E8EE12011E1EAA2800D67387 /* LibraryAPI.swift */,
 				E8EE11D71E1EA7FC00D67387 /* Main.storyboard */,
 				E8EE11DA1E1EA7FC00D67387 /* Assets.xcassets */,
 				E8EE11DC1E1EA7FC00D67387 /* LaunchScreen.storyboard */,
@@ -259,8 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8EE12021E1EAA2800D67387 /* LibraryAPI.swift in Sources */,
 				E8EE11D61E1EA7FC00D67387 /* ViewController.swift in Sources */,
+				E8EE120A1E1F373B00D67387 /* User.swift in Sources */,
 				E8EE11D41E1EA7FC00D67387 /* AppDelegate.swift in Sources */,
+				E8EE12041E1EAFC200D67387 /* Book.swift in Sources */,
+				E8EE12081E1EAFCB00D67387 /* BookStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
