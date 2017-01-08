@@ -1,0 +1,18 @@
+[
+ {
+   "checkedOut": false,
+   "title": "Harry Potter",
+   "author": "JK Rowling",
+   "genre": "Fantasy",
+   "user": null,
+   "id": 0
+ },
+ {
+   "checkedOut": false,
+   "title": "Moby Dick",
+   "author": "Herman Melville",
+   "genre": "Fiction",
+   "user": null,
+   "id": 1
+ }
+]

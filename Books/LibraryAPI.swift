@@ -12,7 +12,10 @@ internal struct LibraryAPI {
     internal enum Error: Swift.Error {
         case invalidJSONData
     }
-    
-    internal static let url : URL = URL(string: "https://tiy-todo-angular.herokuapp.com/get-all-books.json")!
+
+    private static let baseURL: String = "https://conor-tiy-library.herokuapp.com/"//"https://conor-tiy-library.herokuapp.com/"
+    internal static let getBooksURL: URL = URL(string: baseURL + "getbooks.json")!
+    internal static let checkOutBookURL: URL = URL(string: baseURL + "checkout.json")!
+    internal static let returnBookURL: URL = URL(string: baseURL + "return.json")!
     
 }

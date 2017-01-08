@@ -9,51 +9,91 @@
 import Foundation
 
 enum PostsResult {
-    case success([Book])
+    case success
     case failure(BookStore.Error)
+    
+    static func ==(lhs: PostsResult, rhs: PostsResult) -> Bool {
+        switch (lhs, rhs) {
+        case (.success, .success):
+            return true
+        case (.failure, .failure):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 internal final class BookStore {
+    var books = [Book]()
+    
     enum Error: Swift.Error {
         case http(HTTPURLResponse)
         case system(Swift.Error)
-    }
+        }
     
-    fileprivate let session: URLSession = {
+    fileprivate static let session: URLSession = {
         return URLSession(configuration: .default)
     }()
     
-    internal func fetchGlobalPosts(completion: @escaping (PostsResult) -> ()) {
-        let task = session.dataTask(with: LibraryAPI.url) { (optionalData, optionalResponse, optionalError) in
-            if let data = optionalData, let dictionary = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any] {
-                //completion(.success(something something))
-                //OVERRIDING HERE WHILE WAITING ON API
-                let filePath = URL.init(fileURLWithPath: "/Users/noj/Code/TIY/Books/Books/json.txt")
-                let bookData = try? Data(contentsOf: filePath)
-                if bookData != nil {
-                    print("Saved Books found. Attempting to load.")
-                    let jsonBooks = try? JSONSerialization.jsonObject(with: bookData!, options: []) as? [[String: Any]]
-                    if let booksJSON = jsonBooks {
-                        if let unwrappedBooksJSON = booksJSON {
-                         let books = unwrappedBooksJSON.flatMap { Book.init(jsonDict:$0) }
-                            return completion(.success(books))
-                        }
+    internal static func checkOutBook(_ book: Book, forUser user: String, completion: @escaping (PostsResult) -> ()) {
+        let data: [String: Any] = ["id": book.id, "user": user]
+        print(data)
+        let json = try! JSONSerialization.data(withJSONObject: data, options: [])
+        postToEndpoint(endpoint: LibraryAPI.checkOutBookURL, withJSON: json) {  completion($0) }
+    }
+    
+    internal static func returnBook(_ book: Book, forUser user: String, completion: @escaping (PostsResult) -> ()) {
+        let data: [String: Any] = ["id": book.id, "user": user]
+        let json = try! JSONSerialization.data(withJSONObject: data, options: [])
+        postToEndpoint(endpoint: LibraryAPI.returnBookURL, withJSON: json) {  completion($0) }
+    }
+    
+    private static func postToEndpoint(endpoint: URL, withJSON json: Data, completion: @escaping (PostsResult) -> ()) {
+        var request = URLRequest(url: endpoint)
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        request.httpMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = json
+        let task = session.dataTask(with: request) { (optionalData, optionalResponse, optionalError) in
+            guard optionalResponse != nil else {
+                print("\(optionalError!)")
+                completion(.failure(.system(optionalError!)))
+                return
+            }
+            print("successfully posted")
+            completion(.success)
+        }
+        
+        task.resume()
+    }
+    
+    internal func fetchBooks(completion: ((PostsResult) -> ())? ) {
+        
+        let task = BookStore.session.dataTask(with: LibraryAPI.getBooksURL) { (optionalData, optionalResponse, optionalError) in
+            if let data = optionalData {
+                let optionalDataWithoutType = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let dataWithoutType = optionalDataWithoutType {
+                    if let arrayOfDictionarys = dataWithoutType as? [[String: Any]] {
+                        let newBooks = arrayOfDictionarys.flatMap { Book.init(jsonDict:$0) }
+                        self.books = newBooks
+                        completion?(.success)
                     } else {
-                        print("No users found in save file")
+                        print("JSON data could not be turned into an array of dictionaries")
                     }
+                    
                 } else {
-                    print("No existing users found. Starting an empty instance")
+                    print("Data present but could not be deserialized by Swift")
                 }
-
             } else if let response = optionalResponse {
                 let error = Error.http(response as! HTTPURLResponse)
-                completion(.failure(error))
+                completion?(.failure(error))
             } else {
-            let error = optionalError!
-            completion(.failure(.system(error)))
+                let error = optionalError!
+                completion?(.failure(.system(error)))
             }
-            }
-        task.resume()
         }
-
+        task.resume()
+    }
+    
 }

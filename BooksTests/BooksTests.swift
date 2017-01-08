@@ -12,12 +12,52 @@ import XCTest
 class BooksTests: XCTestCase {
     
     func testInitBookWithJSON() {
-        let filePath = URL.init(fileURLWithPath: "/Users/noj/Code/TIY/Books/Books/json.txt")
-        let bookData = try! Data(contentsOf: filePath)
-        let jsonBooks = try! JSONSerialization.jsonObject(with: bookData, options: []) as! [[String: Any]]
-        let result = jsonBooks.flatMap { Book.init(jsonDict:$0) }
-        let expected: [Book] = [Book(title: "iOS for Dummies", author: "TJ (who else?)", checkedOut: false, genre: "Technical", user: nil), Book(title: "Harry Potter and the something", author: "JK Rowling", checkedOut: false, genre: "Fantasy", user: nil), Book(title: "String Theory", author: "Foster Wallace", checkedOut: false, genre: "Biography", user: nil), Book(title: "100 years of solitude", author: "Gabriel Garcia Marquez", checkedOut: false, genre: "Fiction", user: User(id: 7000, lastName: "Developer", firstName: "Master", username: "dev@tiy.com"))]
-        XCTAssertTrue(result == expected)
+        var result = [Book]()
+        let expected: [Book] = [Book(title: "Harry Potter", author: "JK Rowling", checkedOut: false, genre: "Fantasy",user: nil, id: 0), Book(title: "Moby Dick", author: "Herman Melville", checkedOut: false, genre: "Fiction", user: nil, id: 1)]
+        BookStore.fetchBooks() {
+            switch $0 {
+            case .success(let x):
+                result = x
+            default:
+                fatalError()
+            }
+            XCTAssertTrue(result == expected)
+        }
+        
     }
+    
+    func testCheckOutBook() {
+        let exp = expectation(description: "book was returned")
+        
+        let book = Book(title: "Harry Potter", author: "JK Rowling", checkedOut: false, genre: "Fantasy",user: nil, id: 0)
+        
+        BookStore.checkOutBook(book, forUser: "John Doe") {
+            if $0 == PostsResult.success([]) {
+                exp.fulfill()
+            }
+            print($0)
+        }
+
+        waitForExpectations(timeout: 30.0)
+    }
+    
+    func testReturnBook() {
+        let exp = expectation(description: "book was returned")
+        
+        let book = Book(title: "Harry Potter", author: "JK Rowling", checkedOut: false, genre: "Fantasy",user: nil, id: 0)
+        
+        BookStore.returnBook(book, forUser: "John Doe") {
+            if $0 == PostsResult.success([]) {
+                exp.fulfill()
+            }
+            print($0)
+        }
+        
+        waitForExpectations(timeout: 30.0)
+    }
+    
+//    func testCheckOutBook() {
+//        
+//    }
     
 }
